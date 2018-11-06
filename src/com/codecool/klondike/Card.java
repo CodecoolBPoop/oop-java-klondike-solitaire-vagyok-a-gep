@@ -79,10 +79,12 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2){
 
-        if (card1.suit == 1 || card1.suit == 2 && card2.suit == 4 || card2.suit == 3) {
+        if (card1.suit == 1 || card1.suit == 2 && card2.suit == 4 || card2.suit == 3){
+            System.out.println("First");
             return true;
         }else{
             if (card1.suit == 3 || card1.suit == 4 && card2.suit == 1 || card2.suit == 2){
+                System.out.println("second");
                 return true;
             }
         }

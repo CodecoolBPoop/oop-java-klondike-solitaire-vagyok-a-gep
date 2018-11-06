@@ -140,7 +140,9 @@ public class Game extends Pane {
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
-            msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
+            if(Card.isOppositeColor(card, destPile.getTopCard())) {
+                msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
+            }
         }
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
