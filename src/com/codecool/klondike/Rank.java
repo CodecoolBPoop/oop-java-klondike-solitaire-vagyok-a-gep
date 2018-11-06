@@ -1,8 +1,8 @@
 package com.codecool.klondike;
 
 public enum Rank {
-    TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5),
-    SEVEN(6), EIGHT(7), NINE(8), TEN(9), JUMBO(10), QUEEN(11), KING(12), ACE(13);
+    TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6),
+    SEVEN(7), EIGHT(8), NINE(9), TEN(10), JUMBO(11), QUEEN(12), KING(13), ACE(1);
     int value;
 
     Rank(int value) {
