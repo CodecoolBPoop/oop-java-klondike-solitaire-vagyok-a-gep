@@ -1,0 +1,12 @@
+package com.codecool.klondike;
+
+public enum Rank {
+    TWO(1), THREE(2), FOUR(3), FIVE(4), SIX(5),
+    SEVEN(6), EIGHT(7), NINE(8), TEN(9), JUMBO(10), QUEEN(11), KING(12), ACE(13);
+    int value;
+
+    Rank(int value) {
+        this.value = value;
+    }
+
+}
