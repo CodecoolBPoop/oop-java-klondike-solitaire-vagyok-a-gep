@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Card extends ImageView {
 
-    private int suit;
-    private int rank;
+    private Suit suit;
+    private Rank rank;
     private boolean faceDown;
 
     private Image backFace;
@@ -23,7 +23,7 @@ public class Card extends ImageView {
     public static final int WIDTH = 150;
     public static final int HEIGHT = 215;
 
-    public Card(int suit, int rank, boolean faceDown) {
+    public Card(Suit suit, Rank rank, boolean faceDown) {
         this.suit = suit;
         this.rank = rank;
         this.faceDown = faceDown;
@@ -34,11 +34,11 @@ public class Card extends ImageView {
         setEffect(dropShadow);
     }
 
-    public int getSuit() {
+    public Suit getSuit() {
         return suit;
     }
 
-    public int getRank() {
+    public Rank getRank() {
         return rank;
     }
 
@@ -47,7 +47,8 @@ public class Card extends ImageView {
     }
 
     public String getShortName() {
-        return "S" + suit + "R" + rank;
+        int rankNumber = rank.getRankNumber();
+        return  suit + "R" + rankNumber;
     }
 
     public DropShadow getDropShadow() {
@@ -79,12 +80,10 @@ public class Card extends ImageView {
 
     public static boolean isOppositeColor(Card card1, Card card2){
 
-        if (card1.suit == 1 || card1.suit == 2 && card2.suit == 4 || card2.suit == 3){
-            System.out.println("First");
+        if (card1.suit == Suit.HEARTS || card1.suit == Suit.DIAMONDS && card2.suit == Suit.SPADES || card2.suit == Suit.CLUBS) {
             return true;
         }else{
-            if (card1.suit == 3 || card1.suit == 4 && card2.suit == 1 || card2.suit == 2){
-                System.out.println("second");
+            if (card1.suit == Suit.CLUBS || card1.suit == Suit.SPADES && card2.suit == Suit.DIAMONDS || card2.suit == Suit.HEARTS){
                 return true;
             }
         }
@@ -97,11 +96,11 @@ public class Card extends ImageView {
 
     public static List<Card> createNewDeck() {
         List<Card> result = new ArrayList<>();
-        for (int suit = 1; suit < 5; suit++) {
-            for (int rank = 1; rank < 14; rank++) {
-                result.add(new Card(suit, rank, true));
-            }
-        }
+      for (Suit suit : Suit.values()){
+          for (Rank rank : Rank.values()){
+              result.add(new Card(suit, rank, true));
+          }
+      }
         Collections.shuffle(result);
         return result;
     }
@@ -110,28 +109,16 @@ public class Card extends ImageView {
     public static void loadCardImages() {
         cardBackImage = new Image("card_images/card_back.png");
         String suitName = "";
-        for (int suit = 1; suit < 5; suit++) {
-            switch (suit) {
-                case 1:
-                    suitName = "hearts";
-                    break;
-                case 2:
-                    suitName = "diamonds";
-                    break;
-                case 3:
-                    suitName = "spades";
-                    break;
-                case 4:
-                    suitName = "clubs";
-                    break;
-            }
-            for (int rank = 1; rank < 14; rank++) {
-                String cardName = suitName + rank;
-                String cardId = "S" + suit + "R" + rank;
+        for(Suit suit : Suit.values()){
+            suitName = suit.getName();
+            for (Rank rank : Rank.values()){
+                int rankNumber = rank.getRankNumber();
+                String cardName = suitName + rankNumber;
+                String cardId = suit + "R" + rankNumber;
                 String imageFileName = "card_images/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
         }
+        }
     }
 
-}

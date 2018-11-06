@@ -36,7 +36,8 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
-        if (card.getContainingPile().getPileType() == Pile.PileType.STOCK) {
+        if (card.getContainingPile().getPileType() == Pile.PileType.STOCK
+            && card.getContainingPile().getTopCard() == card){
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
@@ -111,7 +112,6 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
         return true;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
