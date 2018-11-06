@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
+
 import java.util.*;
 
 public class Card extends ImageView {
@@ -12,6 +13,7 @@ public class Card extends ImageView {
     private int suit;
     private int rank;
     private boolean faceDown;
+
 
     private Image backFace;
     private Image frontFace;
@@ -77,10 +79,16 @@ public class Card extends ImageView {
         return "The " + "Rank" + rank + " of " + "Suit" + suit;
     }
 
-    public static boolean isOppositeColor(Card card1, Card card2) {
-        if (card1.suit != card2.suit) {
+    public static boolean isOppositeColor(Card card1, Card card2){
+        
+        if (card1.suit == 1 || card1.suit == 2 && card2.suit == 4 || card2.suit == 3) {
             return true;
+        }else{
+            if (card1.suit == 3 || card1.suit == 4 && card2.suit == 1 || card2.suit == 2){
+                return true;
+            }
         }
+
         return false;
     }
     public static boolean isSameSuit(Card card1, Card card2) {

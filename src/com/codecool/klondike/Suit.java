@@ -4,7 +4,11 @@ public enum Suit {
     SPADES(3), CLUBS(4), HEARTS(1), DIAMONDS(2);
     int value;
 
-    Suit(int value) {
+     Suit(int value) {
         this.value = value;
+    }
+
+    public int getValue() {
+        return value;
     }
 }
