@@ -112,8 +112,21 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        return true;
+        // && card.getRank() == Rank.KING)
+        if(destPile.isEmpty()){
+            return true;
+        }
+
+        if (Card.isOppositeColor(card, destPile.getTopCard())) {
+            System.out.println("VALID");
+            return true;
+        }
+        System.out.println("not valid");
+        return false;
+
     }
+
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
@@ -140,9 +153,8 @@ public class Game extends Pane {
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
-            if(Card.isOppositeColor(card, destPile.getTopCard())) {
+
                 msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
-            }
         }
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
