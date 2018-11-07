@@ -119,7 +119,7 @@ public class Card extends ImageView {
         String suitName = "";
         for(Suit suit : Suit.values()){
             suitName = suit.getName();
-            for (Rank rank : Rank.values(handle)){
+            for (Rank rank : Rank.values()){
                 int rankNumber = rank.getRankNumber();
                 String cardName = suitName + rankNumber;
                 String cardId = suit + "R" + rankNumber;
