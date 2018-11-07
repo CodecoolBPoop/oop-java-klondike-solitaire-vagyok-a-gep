@@ -80,8 +80,12 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
         //TODO
-        if (pile != null) {
+        Pile foundationPile = getValidIntersectingPile(card, foundationPiles);
+
+        if ((pile) != null) {
             handleValidMove(card, pile);
+        } else if (foundationPile != null) {
+            handleValidMove(card, foundationPile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards = null;
@@ -211,23 +215,6 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    private void handle(MouseEvent e) {
-        if (draggedCards.isEmpty())
-            return;
-        Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
-        Pile foundationPile = getValidIntersectingPile(card, foundationPiles);
-
-        if ((pile) != null) {
-            handleValidMove(card, pile);
-        } else if (foundationPile != null) {
-            handleValidMove(card, foundationPile);
-        } else {
-            draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
-        }
-    }
     public boolean isUnderCard(Card card, Pile pile) {
         Rank cardNumber = card.getRank();
         int cardNumberInInt = cardNumber.getRankNumber();
