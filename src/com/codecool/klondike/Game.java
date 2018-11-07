@@ -125,6 +125,7 @@ public class Game extends Pane {
             System.out.println("VALID");
             return true;
         }
+
         System.out.println("not valid");
         return false;
 
@@ -200,7 +201,7 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
+        //TODO - DONE
         int tableauNumber = 0;
         for (Tableau tableau : Tableau.values()){
             tableauNumber = tableau.getTableauNumber();
@@ -242,4 +243,13 @@ public class Game extends Pane {
             return false;
         }
     }
+
+    public void turnUpTopCard(Pile pile) {
+
+        Card topCard = pile.getFaceDownCard();
+        if (topCard.isFaceDown()) {
+            topCard.flip();
+        }
+    }
+
 }
