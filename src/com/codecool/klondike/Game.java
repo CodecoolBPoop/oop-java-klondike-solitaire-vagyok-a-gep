@@ -88,7 +88,7 @@ public class Game extends Pane {
             handleValidMove(card, foundationPile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -111,7 +111,13 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        int discardSize = discardPile.getCards().size();
+        if(stockPile.isEmpty()){
+            for(int i = 0; i < discardSize; i++){
+                discardPile.getTopCard().moveToPile(stockPile);
+                stockPile.getTopCard().flip();
+            }
+        }
         System.out.println("Stock refilled from discard pile.");
     }
 
