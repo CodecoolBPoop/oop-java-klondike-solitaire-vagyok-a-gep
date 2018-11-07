@@ -37,7 +37,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK
-            && card.getContainingPile().getTopCard() == card){
+                && card.getContainingPile().getTopCard() == card) {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
@@ -113,11 +113,11 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         // && card.getRank() == Rank.KING)
-        if(destPile.isEmpty()){
+        if (destPile.isEmpty()) {
             return true;
         }
 
-        if (Card.isOppositeColor(card, destPile.getTopCard())) {
+        if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
             System.out.println("VALID");
             return true;
         }
@@ -154,7 +154,7 @@ public class Game extends Pane {
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
 
-                msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
+            msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
@@ -211,4 +211,18 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
+    public boolean isUnderCard(Card card, Pile pile) {
+        Rank cardNumber = card.getRank();
+        int cardNumberInInt = cardNumber.getRankNumber();
+
+        Card topCard = pile.getTopCard();
+        Rank topCardNumber = topCard.getRank();
+        int topCardNumberInInt = topCardNumber.getRankNumber();
+
+        if (cardNumberInInt+1 == topCardNumberInInt) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
