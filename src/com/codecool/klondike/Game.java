@@ -37,7 +37,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK
-                && card.getContainingPile().getTopCard() == card) {
+            && card.getContainingPile().getTopCard() == card){
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
@@ -201,12 +201,25 @@ public class Game extends Pane {
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
+        int tableauNumber = 0;
+        for (Tableau tableau : Tableau.values()){
+            tableauNumber = tableau.getTableauNumber();
+        }
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
         });
+        for (int i = 0; i < tableauPiles.size(); i++) {
 
+            Pile pile = tableauPiles.get(i);
+            for (int j = 0; j<i+1; j++){
+                stockPile.getTopCard().moveToPile(pile);
+                if (i == j){
+                    pile.getTopCard().flip();
+                }
+        }
+    }
     }
 
     public void setTableBackground(Image tableBackground) {
