@@ -37,7 +37,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK
-            && card.getContainingPile().getTopCard() == card){
+                && card.getContainingPile().getTopCard() == card) {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
@@ -74,19 +74,8 @@ public class Game extends Pane {
         card.setTranslateY(offsetY);
     };
 
-    private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
-        if (draggedCards.isEmpty())
-            return;
-        Card card = (Card) e.getSource();
-        Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
-        if (pile != null) {
-            handleValidMove(card, pile);
-        } else {
-            draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
-        }
-    };
+    private EventHandler<MouseEvent> onMouseReleasedHandler = //TODO
+            this::handle;
 
     public boolean isGameWon() {
         //TODO
@@ -211,4 +200,21 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
+    private void handle(MouseEvent e) {
+        if (draggedCards.isEmpty())
+            return;
+        Card card = (Card) e.getSource();
+        Pile pile = getValidIntersectingPile(card, tableauPiles);
+        //TODO
+        Pile foundationPile = getValidIntersectingPile(card, foundationPiles);
+
+        if ((pile) != null) {
+            handleValidMove(card, pile);
+        } else if (foundationPile != null) {
+            handleValidMove(card, foundationPile);
+        } else {
+            draggedCards.forEach(MouseUtil::slideBack);
+            draggedCards = null;
+        }
+    }
 }

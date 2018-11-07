@@ -92,6 +92,7 @@ public class Card extends ImageView {
         if (isRed.contains(card1.getSuit()) && isRed.contains(card2.getSuit())){
             return false;
         }
+
         if(isBlack.contains(card1.getSuit()) && isBlack.contains(card2.getSuit())){
             return false;
         }
