@@ -122,8 +122,8 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-
-        if (destPile.isEmpty()){
+        // && card.getRank() == Rank.KING)
+        if (destPile.isEmpty()) {
             return true;
         }
 
