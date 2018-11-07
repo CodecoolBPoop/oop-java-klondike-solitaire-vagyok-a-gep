@@ -112,11 +112,21 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        if (Card.isOppositeColor(card, destPile.getTopCard())) {
+        // && card.getRank() == Rank.KING)
+        if(destPile.isEmpty()){
             return true;
         }
+
+        if (Card.isOppositeColor(card, destPile.getTopCard())) {
+            System.out.println("VALID");
+            return true;
+        }
+        System.out.println("not valid");
         return false;
+
     }
+
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
@@ -143,7 +153,8 @@ public class Game extends Pane {
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
-            msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
+
+                msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
@@ -186,12 +197,25 @@ public class Game extends Pane {
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
+        int tableauNumber = 0;
+        for (Tableau tableau : Tableau.values()){
+            tableauNumber = tableau.getTableauNumber();
+        }
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
         });
+        for (int i = 0; i < tableauPiles.size(); i++) {
 
+            Pile pile = tableauPiles.get(i);
+            for (int j = 0; j<i+1; j++){
+                stockPile.getTopCard().moveToPile(pile);
+                if (i == j){
+                    pile.getTopCard().flip();
+                }
+        }
+    }
     }
 
     public void setTableBackground(Image tableBackground) {
