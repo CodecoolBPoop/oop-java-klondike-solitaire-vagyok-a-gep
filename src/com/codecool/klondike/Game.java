@@ -26,7 +26,6 @@ public class Game extends Pane {
     private List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
 
-
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
 
@@ -130,15 +129,21 @@ public class Game extends Pane {
 
         if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.TABLEAU) {
             if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
+                System.out.println("VALID");
+                turnUpTopCard(card);
                 return true;
             }
         }
 
         if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.FOUNDATION) {
+            turnUpTopCard(card);
             return true;
         }
 
+
         if (destPile.getPileType() == Pile.PileType.FOUNDATION && destPile.isEmpty() && card.getRank() == Rank.ACE) {
+            System.out.println("good");
+            turnUpTopCard(card);
             return true;
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
@@ -178,7 +183,6 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
-            System.out.println(destPile.getTopCard());
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -278,4 +282,14 @@ public class Game extends Pane {
             return false;
         }
     }
+
+    public void turnUpTopCard(Card card) {
+
+        Pile starterPile = card.getContainingPile();
+        Card topCard = starterPile.getFaceDownCard();
+        if (topCard.isFaceDown()) {
+            topCard.flip();
+        }
+    }
+
 }
