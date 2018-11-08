@@ -30,6 +30,11 @@ public class Game extends Pane {
 
 
     private double dragStartX, dragStartY;
+
+    public List<Card> getDraggedCards() {
+        return draggedCards;
+    }
+
     private List<Card> draggedCards = FXCollections.observableArrayList();
 
     private static double STOCK_GAP = 1;
@@ -276,10 +281,23 @@ public class Game extends Pane {
     public void turnUpTopCard(Card card) {
 
         Pile starterPile = card.getContainingPile();
-        Card topCard = starterPile.getFaceDownCard();
-        if (topCard.isFaceDown()) {
-            topCard.flip();
+        ObservableList<Card> cards = starterPile.getCards();
+        if (cards.size() - draggedCards.size() >= 1)
+        if ((cards.size() > 0) && cards.get(cards.size() - draggedCards.size() - 1).isFaceDown()){
+            cards.get(cards.size() - draggedCards.size() - 1).flip();
         }
+    }
+
+    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
+
+        List<Card> selectedCards = new ArrayList<>();
+
+        int i = activePile.getCards().indexOf(currentCard);
+        for( int j=i; j < activePile.getCards().size(); j++) {
+            selectedCards.add( activePile.getCards().get(j));
+        }
+
+        return selectedCards;
     }
 
 
