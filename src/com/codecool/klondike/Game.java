@@ -275,5 +275,4 @@ public class Game extends Pane {
             topCard.flip();
         }
     }
-
 }
