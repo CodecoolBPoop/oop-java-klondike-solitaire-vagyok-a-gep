@@ -37,7 +37,7 @@ public class Game extends Pane {
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK
-            && card.getContainingPile().getTopCard() == card){
+                && card.getContainingPile().getTopCard() == card) {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
@@ -112,8 +112,8 @@ public class Game extends Pane {
 
     public void refillStockFromDiscard() {
         int discardSize = discardPile.getCards().size();
-        if(stockPile.isEmpty()){
-            for(int i = 0; i < discardSize; i++){
+        if (stockPile.isEmpty()) {
+            for (int i = 0; i < discardSize; i++) {
                 discardPile.getTopCard().moveToPile(stockPile);
                 stockPile.getTopCard().flip();
             }
@@ -122,16 +122,30 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        // && card.getRank() == Rank.KING)
-        if (destPile.isEmpty()) {
+
+        if (destPile.getPileType() == Pile.PileType.TABLEAU && destPile.isEmpty() && card.getRank() == Rank.KING) {
             return true;
         }
 
-        if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
-            System.out.println("VALID");
+        if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.TABLEAU) {
+            if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
+                System.out.println("VALID");
+                return true;
+            }
+        }
+
+        if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.FOUNDATION) {
             return true;
         }
 
+
+        if (destPile.getPileType() == Pile.PileType.FOUNDATION && destPile.isEmpty() && card.getRank() == Rank.ACE) {
+            System.out.println("good");
+            return true;
+        } else {
+            draggedCards.forEach(MouseUtil::slideBack);
+            draggedCards.clear();
+        }
         System.out.println("not valid");
         return false;
 
@@ -220,13 +234,13 @@ public class Game extends Pane {
         for (int i = 0; i < tableauPiles.size(); i++) {
 
             Pile pile = tableauPiles.get(i);
-            for (int j = 0; j<i+1; j++){
+            for (int j = 0; j < i + 1; j++) {
                 stockPile.getTopCard().moveToPile(pile);
-                if (i == j){
+                if (i == j) {
                     pile.getTopCard().flip();
                 }
+            }
         }
-    }
     }
 
     public void setTableBackground(Image tableBackground) {
@@ -243,9 +257,9 @@ public class Game extends Pane {
         Rank topCardNumber = topCard.getRank();
         int topCardNumberInInt = topCardNumber.getRankNumber();
 
-        if (cardNumberInInt+1 == topCardNumberInInt) {
+        if (cardNumberInInt + 1 == topCardNumberInInt) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
