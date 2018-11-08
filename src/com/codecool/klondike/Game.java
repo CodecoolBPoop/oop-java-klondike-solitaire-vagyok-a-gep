@@ -139,6 +139,7 @@ public class Game extends Pane {
     public boolean isMoveValid(Card card, Pile destPile) {
 
         if (destPile.getPileType() == Pile.PileType.TABLEAU && destPile.isEmpty() && card.getRank() == Rank.KING) {
+            turnUpTopCard(card);
             return true;
         }
 
