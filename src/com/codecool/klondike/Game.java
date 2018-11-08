@@ -135,11 +135,6 @@ public class Game extends Pane {
             }
         }
 
-        if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.FOUNDATION) {
-            turnUpTopCard(card);
-            return true;
-        }
-
 
         if (destPile.getPileType() == Pile.PileType.FOUNDATION && destPile.isEmpty() && card.getRank() == Rank.ACE) {
             System.out.println("good");
@@ -150,14 +145,19 @@ public class Game extends Pane {
             draggedCards.clear();
         }
 
-        if (destPile.getPileType() == Pile.PileType.FOUNDATION && isUnderCardFoundation(card, destPile)) {
-            System.out.println("Ye boy");
-            return true;
+        if (destPile.getTopCard() != null && destPile.getPileType() == Pile.PileType.FOUNDATION) {
+            System.out.println("what");
+            if (isUnderCardFoundation(destPile.getTopCard().getRank(), card.getRank())) {
+                System.out.println("whatnot");
+                return true;
+            }
+            if (Card.isSameSuit(card, destPile.getTopCard())) {
+                return true;
+            }
         }
+        System.out.println("not valid");
         return false;
     }
-
-    ;
 
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
@@ -253,19 +253,9 @@ public class Game extends Pane {
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
     }
 
-    public boolean isUnderCardFoundation(Card card, Pile pile) {
+    public boolean isUnderCardFoundation(Rank card1, Rank card2) {
 
-        Card topCard = pile.getTopCard();
-        Rank topCardNumber = topCard.getRank();
-        int topCardNumberInInt = topCardNumber.getRankNumber();
-
-        Rank cardNumber = card.getRank();
-        int cardNumberInInt = cardNumber.getRankNumber();
-        if (cardNumberInInt - 1 == topCardNumberInInt) {
-            return true;
-        } else {
-            return false;
-        }
+        return card1.ordinal() + 1 == card2.ordinal();
     }
 
     public boolean isUnderCard(Card card, Pile pile) {
@@ -290,6 +280,7 @@ public class Game extends Pane {
         if (topCard.isFaceDown()) {
             topCard.flip();
         }
+
     }
 
 }

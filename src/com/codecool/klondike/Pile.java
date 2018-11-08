@@ -75,10 +75,12 @@ public class Pile extends Pane {
     }
 
     public Card getFaceDownCard() {
-        if (cards.isEmpty())
+        if (cards.isEmpty()) {
             return null;
-        else
+        } else if (cards.size() > 1) {
             return cards.get(cards.size() - 2);
+        }
+        return null;
     }
 
     public void setBlurredBackground() {
