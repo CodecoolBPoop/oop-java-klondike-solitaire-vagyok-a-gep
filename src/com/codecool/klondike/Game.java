@@ -282,48 +282,27 @@ public class Game extends Pane {
 
         Pile starterPile = card.getContainingPile();
         ObservableList<Card> cards = starterPile.getCards();
-        if (cards.size() - draggedCards.size() >= 1)
-        if ((cards.size() > 0) && cards.get(cards.size() - draggedCards.size() - 1).isFaceDown()){
-            cards.get(cards.size() - draggedCards.size() - 1).flip();
-        }
-    }
-
-    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
-
-        List<Card> selectedCards = new ArrayList<>();
-
-        int i = activePile.getCards().indexOf(currentCard);
-        for( int j=i; j < activePile.getCards().size(); j++) {
-            selectedCards.add( activePile.getCards().get(j));
-        }
-
-        return selectedCards;
-    }
-
-
-    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
-
-        List<Card> selectedCards = new ArrayList<>();
-
-        int i = activePile.getCards().indexOf(currentCard);
-        for( int j=i; j < activePile.getCards().size(); j++) {
-            selectedCards.add( activePile.getCards().get(j));
-        }
-
-        return selectedCards;
-    }
-
-    public ObservableList<Card> getFaceUpCards(Card card) {
-        ArrayList<String> faceUpCards = new ArrayList<>();
-        Pile starterPile = card.getContainingPile();
-        ObservableList<Card> allCardsInPile = starterPile.numOfCards(starterPile);
-        for (int i = 0; i < allCardsInPile.size(); i++) {
-            if (!allCardsInPile.get(i).isFaceDown()) {
-                String cardInfo = allCardsInPile.get(i).getShortName();
-                faceUpCards.add(cardInfo);
+        if (cards.size() != 1) {
+            if (cards.size() - draggedCards.size() >= 1) {
+                if ((cards.size() > 0) && cards.get(cards.size() - draggedCards.size() - 1).isFaceDown()) {
+                    cards.get(cards.size() - draggedCards.size() - 1).flip();
+                }
             }
+        } else if (cards.get(0).isFaceDown()){
+            cards.get(0).flip();
         }
-        System.out.println("Face Up Cards: " + faceUpCards);
-        return allCardsInPile;
+    }
+
+
+    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
+
+        List<Card> selectedCards = new ArrayList<>();
+
+        int i = activePile.getCards().indexOf(currentCard);
+        for( int j=i; j < activePile.getCards().size(); j++) {
+            selectedCards.add( activePile.getCards().get(j));
+        }
+
+        return selectedCards;
     }
 }
