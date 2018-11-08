@@ -142,7 +142,7 @@ public class Game extends Pane {
             return true;
         }
 
-        if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.TABLEAU) {
+        if ((!destPile.isEmpty()) && (destPile.getPileType() == Pile.PileType.TABLEAU)) {
             if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
                 System.out.println("VALID");
                 turnUpTopCard(card);
@@ -150,7 +150,8 @@ public class Game extends Pane {
             }
         }
 
-        if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.FOUNDATION) {
+        if ((!destPile.isEmpty()) && destPile.getPileType() == Pile.PileType.FOUNDATION && isUnderCardFound(destPile) &&
+                Card.isSameSuit(destPile.getTopCard(), card)) {
             turnUpTopCard(card);
             return true;
         }
@@ -293,6 +294,17 @@ public class Game extends Pane {
         }
     }
 
+    public boolean isUnderCardFoundation(Rank card1, Rank card2) {
+
+        return card1.ordinal() + 1 == card2.ordinal();
+    }
+
+    public boolean isUnderCardFound(Pile pile) {
+        if (draggedCards.get(0).getRank().getRankNumber() - 1 == pile.getTopCard().getRank().getRankNumber()) {
+            return true;
+        }
+        return false;
+    }
 
     public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
 
