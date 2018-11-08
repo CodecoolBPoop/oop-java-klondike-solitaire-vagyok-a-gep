@@ -83,10 +83,10 @@ public class Game extends Pane {
         //TODO
         Pile foundationPile = getValidIntersectingPile(card, foundationPiles);
 
-        if ((pile) != null) {
-            handleValidMove(card, pile);
-        } else if (foundationPile != null) {
+        if ((foundationPile) != null) {
             handleValidMove(card, foundationPile);
+        } else if ((pile) != null) {
+            handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
@@ -130,7 +130,6 @@ public class Game extends Pane {
 
         if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.TABLEAU) {
             if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
-                System.out.println("VALID");
                 return true;
             }
         }
@@ -140,16 +139,20 @@ public class Game extends Pane {
         }
 
         if (destPile.getPileType() == Pile.PileType.FOUNDATION && destPile.isEmpty() && card.getRank() == Rank.ACE) {
-            System.out.println("good");
             return true;
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
         }
-        System.out.println("not valid");
-        return false;
 
+        if (destPile.getPileType() == Pile.PileType.FOUNDATION && isUnderCardFoundation(card, destPile)) {
+            System.out.println("Ye boy");
+            return true;
+        }
+        return false;
     }
+
+    ;
 
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
@@ -175,6 +178,7 @@ public class Game extends Pane {
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
+            System.out.println(destPile.getTopCard());
             if (destPile.getPileType().equals(Pile.PileType.TABLEAU))
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
@@ -243,6 +247,21 @@ public class Game extends Pane {
         setBackground(new Background(new BackgroundImage(tableBackground,
                 BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT,
                 BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+    }
+
+    public boolean isUnderCardFoundation(Card card, Pile pile) {
+
+        Card topCard = pile.getTopCard();
+        Rank topCardNumber = topCard.getRank();
+        int topCardNumberInInt = topCardNumber.getRankNumber();
+
+        Rank cardNumber = card.getRank();
+        int cardNumberInInt = cardNumber.getRankNumber();
+        if (cardNumberInInt - 1 == topCardNumberInInt) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isUnderCard(Card card, Pile pile) {
