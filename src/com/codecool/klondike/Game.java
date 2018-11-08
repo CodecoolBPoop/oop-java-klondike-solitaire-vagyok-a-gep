@@ -2,7 +2,9 @@ package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -26,7 +28,13 @@ public class Game extends Pane {
     private List<Pile> foundationPiles = FXCollections.observableArrayList();
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
 
+
     private double dragStartX, dragStartY;
+
+    public List<Card> getDraggedCards() {
+        return draggedCards;
+    }
+
     private List<Card> draggedCards = FXCollections.observableArrayList();
 
     private static double STOCK_GAP = 1;
@@ -59,19 +67,26 @@ public class Game extends Pane {
         Pile activePile = card.getContainingPile();
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
+        if (activePile.getPileType() == Pile.PileType.TABLEAU && card.isFaceDown())
+            return;
+        if (activePile.getPileType() == Pile.PileType.DISCARD && card != discardPile.getTopCard())
+            return;
         double offsetX = e.getSceneX() - dragStartX;
         double offsetY = e.getSceneY() - dragStartY;
 
         draggedCards.clear();
-        draggedCards.add(card);
 
+        for (Card currentCard : getSelectedCards(card, activePile)) {
+            draggedCards.add(currentCard);
+
+            currentCard.toFront();
+            currentCard.setTranslateX(offsetX);
+            currentCard.setTranslateY(offsetY);
+        }
         card.getDropShadow().setRadius(20);
         card.getDropShadow().setOffsetX(10);
         card.getDropShadow().setOffsetY(10);
 
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -224,11 +239,7 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO - DONE
-        int tableauNumber = 0;
-        for (Tableau tableau : Tableau.values()){
-            tableauNumber = tableau.getTableauNumber();
-        }
+        //TODO
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
@@ -270,9 +281,22 @@ public class Game extends Pane {
     public void turnUpTopCard(Card card) {
 
         Pile starterPile = card.getContainingPile();
-        Card topCard = starterPile.getFaceDownCard();
-        if (topCard.isFaceDown()) {
-            topCard.flip();
+        ObservableList<Card> cards = starterPile.getCards();
+        if (cards.size() - draggedCards.size() >= 1)
+        if ((cards.size() > 0) && cards.get(cards.size() - draggedCards.size() - 1).isFaceDown()){
+            cards.get(cards.size() - draggedCards.size() - 1).flip();
         }
+    }
+
+    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
+
+        List<Card> selectedCards = new ArrayList<>();
+
+        int i = activePile.getCards().indexOf(currentCard);
+        for( int j=i; j < activePile.getCards().size(); j++) {
+            selectedCards.add( activePile.getCards().get(j));
+        }
+
+        return selectedCards;
     }
 }
