@@ -130,17 +130,20 @@ public class Game extends Pane {
         if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.TABLEAU) {
             if (Card.isOppositeColor(card, destPile.getTopCard()) && isUnderCard(card, destPile)) {
                 System.out.println("VALID");
+                turnUpTopCard(card);
                 return true;
             }
         }
 
         if (!destPile.isEmpty() && destPile.getPileType() == Pile.PileType.FOUNDATION) {
+            turnUpTopCard(card);
             return true;
         }
 
 
         if (destPile.getPileType() == Pile.PileType.FOUNDATION && destPile.isEmpty() && card.getRank() == Rank.ACE) {
             System.out.println("good");
+            turnUpTopCard(card);
             return true;
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
@@ -264,9 +267,10 @@ public class Game extends Pane {
         }
     }
 
-    public void turnUpTopCard(Pile pile) {
+    public void turnUpTopCard(Card card) {
 
-        Card topCard = pile.getFaceDownCard();
+        Pile starterPile = card.getContainingPile();
+        Card topCard = starterPile.getFaceDownCard();
         if (topCard.isFaceDown()) {
             topCard.flip();
         }
