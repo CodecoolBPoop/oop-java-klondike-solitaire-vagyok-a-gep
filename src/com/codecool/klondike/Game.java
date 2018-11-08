@@ -109,6 +109,18 @@ public class Game extends Pane {
 
     public boolean isGameWon() {
         //TODO
+        int counter = 0;
+        for (Pile pile : foundationPiles) {
+            if (!pile.isEmpty()) {
+                if (pile.getTopCard().getRank() == Rank.KING) {
+                    counter++;
+                    if (counter == 4) {
+                        System.out.println("You won");
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -179,6 +191,7 @@ public class Game extends Pane {
                     isMoveValid(card, pile))
                 result = pile;
         }
+
         return result;
     }
 
@@ -191,6 +204,9 @@ public class Game extends Pane {
 
     private void handleValidMove(Card card, Pile destPile) {
         String msg = null;
+        if (isGameWon()) {
+            System.exit(0);
+        }
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
@@ -242,7 +258,7 @@ public class Game extends Pane {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO - DONE
         int tableauNumber = 0;
-        for (Tableau tableau : Tableau.values()){
+        for (Tableau tableau : Tableau.values()) {
             tableauNumber = tableau.getTableauNumber();
         }
         deckIterator.forEachRemaining(card -> {
@@ -293,12 +309,11 @@ public class Game extends Pane {
                     cards.get(cards.size() - draggedCards.size() - 1).flip();
                 }
             }
-        } else if (cards.get(0).isFaceDown()){
+        } else if (cards.get(0).isFaceDown()) {
             cards.get(0).flip();
         }
 
     }
-
 
 
     public boolean isUnderCardFound(Pile pile) {
@@ -308,13 +323,13 @@ public class Game extends Pane {
         return false;
     }
 
-    public static List<Card> getSelectedCards( Card currentCard, Pile activePile) {
+    public static List<Card> getSelectedCards(Card currentCard, Pile activePile) {
 
         List<Card> selectedCards = new ArrayList<>();
 
         int i = activePile.getCards().indexOf(currentCard);
-        for( int j=i; j < activePile.getCards().size(); j++) {
-            selectedCards.add( activePile.getCards().get(j));
+        for (int j = i; j < activePile.getCards().size(); j++) {
+            selectedCards.add(activePile.getCards().get(j));
         }
 
         return selectedCards;
