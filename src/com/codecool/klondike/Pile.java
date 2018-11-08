@@ -39,9 +39,8 @@ public class Pile extends Pane {
         return cards;
     }
 
-    public int numOfCards() {
-        int numOfCards = 28;
-        return numOfCards;
+    public ObservableList<Card> numOfCards(Pile pile) {
+         return pile.getCards();
     }
 
     public boolean isEmpty() {
