@@ -1,5 +1,6 @@
 package com.codecool.klondike;
 
+import com.sun.deploy.util.ArrayUtil;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -81,11 +82,10 @@ public class Card extends ImageView {
         List<Suit> red = new ArrayList<>();
         red.add(Suit.HEARTS);
         red.add(Suit.DIAMONDS);
-        List<Suit> black = new ArrayList<>();
-        red.add(Suit.SPADES);
-        red.add(Suit.CLUBS);
-
-        return true;
+//        List<Suit> black = new ArrayList<>();
+//        red.add(Suit.SPADES);
+//        red.add(Suit.CLUBS);
+        return Arrays.asList(red).contains(card1) == Arrays.asList(red).contains(card2);
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {
