@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,12 +89,13 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODOz
+        //TODO
         return false;
     }
 
     public Game() {
         deck = Card.createNewDeck();
+        Collections.shuffle(deck);
         initPiles();
         dealCards();
     }
@@ -179,6 +181,7 @@ public class Game extends Pane {
             getChildren().add(tableauPile);
         }
     }
+
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();

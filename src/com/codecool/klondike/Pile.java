@@ -83,8 +83,6 @@ public class Pile extends Pane {
         setEffect(gaussianBlur);
     }
 
-    public Pile shuffle(List<Card> stock) {
-    }
 
     public enum PileType {
         STOCK,
