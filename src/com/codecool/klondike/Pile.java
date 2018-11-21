@@ -48,7 +48,7 @@ public class Pile extends Pane {
     }
 
     public void clear() {
-        //TODO
+        //TODO CLEAR PILE
     }
 
     public void addCard(Card card) {

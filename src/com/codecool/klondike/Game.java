@@ -90,7 +90,7 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
+        //TODO WIN CONDITION
         return false;
     }
 
@@ -109,12 +109,12 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        //TODO REFILL STOCK
         System.out.println("Stock refilled from discard pile.");
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
+        //TODO IS MOVE VALID
         return true;
     }
 
@@ -187,6 +187,7 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
+
         //TODO
         int tableauId = 0;
         for (Tableu tableu : Tableu.values()) {
@@ -199,6 +200,7 @@ public class Game extends Pane {
             }
             tableauPiles.get(tableauId).getTopCard().flip();
         }
+
 
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
