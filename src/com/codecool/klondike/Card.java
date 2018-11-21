@@ -68,7 +68,7 @@ public class Card extends ImageView {
         destPile.addCard(this);
     }
 
-    public void flip() {
+        public void flip() {
         faceDown = !faceDown;
         setImage(faceDown ? backFace : frontFace);
     }
