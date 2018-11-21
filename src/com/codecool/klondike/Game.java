@@ -89,7 +89,7 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
+        //TODO WIN CONDITION
         return false;
     }
 
@@ -108,12 +108,12 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
+        //TODO REFILL STOCK
         System.out.println("Stock refilled from discard pile.");
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
+        //TODO IS MOVE VALID
         return true;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
@@ -185,7 +185,7 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
+        //TODO DEAL INITIAL PILES
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
