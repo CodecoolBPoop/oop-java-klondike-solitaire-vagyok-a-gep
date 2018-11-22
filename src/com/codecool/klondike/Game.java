@@ -90,7 +90,18 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO WIN CONDITION
+        int foundationsDone = 0;
+        for (Pile pile : foundationPiles) {
+            if (!pile.isEmpty()) {
+                if (pile.getTopCard().getRank() == Rank.KING) {
+                    foundationsDone++;
+                    if (foundationsDone == 4) {
+                        System.out.println("You won");
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -138,6 +149,9 @@ public class Game extends Pane {
 
     private void handleValidMove(Card card, Pile destPile) {
         String msg = null;
+        if (isGameWon()) {
+            System.exit(0);
+        }
         if (destPile.isEmpty()) {
             if (destPile.getPileType().equals(Pile.PileType.FOUNDATION))
                 msg = String.format("Placed %s to the foundation.", card);
